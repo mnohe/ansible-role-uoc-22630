@@ -1,0 +1,22 @@
+---
+dependencies:
+# - src: https://github.com/mnohe/ansible-role-uoc-desktop.git
+  - src: git+file:///home/mn/Documents/GitHub/ansible-role-uoc-desktop
+
+galaxy_info:
+  role_name: uoc_22630
+  author: mnohe
+  description: System configuration for UOC's 22.630 subject's assignments.
+  license: "MIT"
+  min_ansible_version: "2.4"
+  platforms:
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - development
+    - uoc
+    - assembly
