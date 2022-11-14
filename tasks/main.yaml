@@ -1,16 +1,20 @@
+---
+- fail: msg="Please set the 'uoc_user' variable"
+  when: uoc_user is not defined
+
 - name: Install tools for '22.630 Computer structure'subject
   block:
     - name: Install packages
       apt:
         name:
-        - build-essential
-        - cmake
-        - extra-cmake-modules
-        - yasm
-        - kdbg
-        - geany
-        - geany-plugins
-    - become_user: "{{ default_user }}"
+          - build-essential
+          - cmake
+          - extra-cmake-modules
+          - yasm
+          - kdbg
+          - geany
+          - geany-plugins
+    - become_user: "{{ uoc_user }}"
       vars:
         geany_filedefs_dir: ~/.config/geany/filedefs/
       block:
@@ -23,10 +27,18 @@
             src: filetypes.asm
             dest: "{{ geany_filedefs_dir}}/filetypes.asm"
     - name: Configure Kdbg
-      become_user: "{{ default_user }}"
-      ansible.builtin.lineinfile:
-        state: present
-        create: true
-        path: ~/.gdbinit
-        regexp: 'set disassembly-flavor'
-        line: set disassembly-flavor intel
+      block:
+        - name: Set disassembly flavour
+          become_user: "{{ uoc_user }}"
+          ansible.builtin.lineinfile:
+            create: true
+            path: ~/.gdbinit
+            search_string: set disassembly-flavor
+            line: set disassembly-flavor intel
+        - name: Set assembler code in Intel notation
+          become_user: "{{ uoc_user }}"
+          ansible.builtin.lineinfile:
+            create: true
+            path: ~/.kde/share/config/kdbgrc
+            search_string: DebuggerCmdStr
+            line: DebuggerCmdStr=gdb --fullname
