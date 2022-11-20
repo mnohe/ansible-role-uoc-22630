@@ -1,6 +1,6 @@
 ---
 dependencies:
-  - src: https://github.com/mnohe/ansible-role-uoc-desktop.git
+  - role: mnohe.uoc-desktop
 
 galaxy_info:
   role_name: uoc_22630
